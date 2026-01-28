@@ -4,6 +4,20 @@
   <img src="icons/icon128.png" alt="SafeGuard Logo" width="128">
 </p>
 
+Contacto y Créditos
+Este proyecto fue creado y es mantenido por:
+
+Creado por XorEaxMrGamer
+🔗 Canal de Youtube: [Visita mi canal](https://www.youtube.com/@xoreaxmrgamer)
+
+📧 Email: xoreaxmrgamer@gmail.com
+
+🔗 Link del Proyecto: [https://github.com/xoreaxmrgamer/tu-repositorio](https://github.com/xoreaxmrgamer/SafeGuard)
+
+[Donaciones](https://www.paypal.com/donate/?hosted_button_id=WTDJQRHLE7MW2)
+
+[Patreon](https://www.patreon.com/c/xoreaxmrgamer)
+
 **SafeGuard** es una extensión profesional para Chrome y Brave que proporciona protección avanzada contra contenido no deseado mediante detección inteligente multinivel, análisis de texto en tiempo real y bloqueo configurable.
 
 ## ✨ Características Principales
