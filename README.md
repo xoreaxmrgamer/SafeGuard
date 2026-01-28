@@ -4,6 +4,8 @@
   <img src="icons/icon128.png" alt="SafeGuard Logo" width="128">
 </p>
 
+<img width="1536" height="1024" alt="ChatGPT Image 28 ene 2026, 03_05_03 p m" src="https://github.com/user-attachments/assets/ad14692c-1994-4c4d-9bb3-03a677cc3577" />
+
 Contacto y Créditos
 Este proyecto fue creado y es mantenido por:
 
