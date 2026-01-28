@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sitio Bloqueado - SafeGuard</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    body::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+      background-size: 50px 50px;
+      animation: moveBackground 20s linear infinite;
+    }
+    
+    @keyframes moveBackground {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(50px, 50px); }
+    }
+    
+    .container {
+      max-width: 600px;
+      width: 100%;
+      background: white;
+      border-radius: 24px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      position: relative;
+      z-index: 1;
+      animation: slideUp 0.5s ease-out;
+    }
+    
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .header {
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+      padding: 40px 32px;
+      text-align: center;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+    }
+    
+    .shield-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 20px;
+      position: relative;
+      z-index: 1;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      50% {
+        transform: scale(1.05);
+        opacity: 0.9;
+      }
+    }
+    
+    .shield-icon svg {
+      width: 100%;
+      height: 100%;
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+    }
+    
+    h1 {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .subtitle {
+      font-size: 16px;
+      opacity: 0.95;
+      font-weight: 500;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .content {
+      padding: 40px 32px;
+    }
+    
+    .message {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    
+    .message h2 {
+      font-size: 20px;
+      color: #0f172a;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+    
+    .message p {
+      font-size: 15px;
+      color: #64748b;
+      line-height: 1.6;
+    }
+    
+    .url-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 32px;
+      word-break: break-all;
+    }
+    
+    .url-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+    
+    .url-text {
+      font-size: 14px;
+      color: #0f172a;
+      font-family: 'Courier New', monospace;
+    }
+    
+    .reason-box {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 32px;
+    }
+    
+    .reason-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #991b1b;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+    
+    .reason-text {
+      font-size: 14px;
+      color: #dc2626;
+      font-weight: 500;
+    }
+    
+    .actions {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    
+    .btn {
+      padding: 14px 24px;
+      border: none;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: inherit;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+      color: white;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4);
+    }
+    
+    .btn-secondary {
+      background: #f1f5f9;
+      color: #0f172a;
+      border: 1px solid #e2e8f0;
+    }
+    
+    .btn-secondary:hover {
+      background: #e2e8f0;
+      transform: translateY(-1px);
+    }
+    
+    .footer {
+      padding: 24px 32px;
+      background: #f8fafc;
+      border-top: 1px solid #e2e8f0;
+      text-align: center;
+    }
+    
+    .footer-text {
+      font-size: 13px;
+      color: #64748b;
+      margin-bottom: 12px;
+    }
+    
+    .footer-link {
+      color: #2563eb;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 13px;
+      transition: color 0.2s ease;
+    }
+    
+    .footer-link:hover {
+      color: #1e40af;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="shield-icon">
+        <svg viewBox="0 0 32 32" fill="none">
+          <path d="M16 2L6 8V14C6 21 10 27 16 30C22 27 26 21 26 14V8L16 2Z" fill="white" opacity="0.3"/>
+          <path d="M16 2L6 8V14C6 21 10 27 16 30C22 27 26 21 26 14V8L16 2Z" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+          <path d="M12 16L15 19L20 13" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h1>Sitio Bloqueado</h1>
+      <p class="subtitle">Este sitio ha sido bloqueado por SafeGuard</p>
+    </div>
+    
+    <div class="content">
+      <div class="message">
+        <h2>Acceso Denegado</h2>
+        <p>SafeGuard ha detectado que este sitio contiene contenido potencialmente inapropiado y ha sido bloqueado para tu protección.</p>
+      </div>
+      
+      <div class="url-box">
+        <div class="url-label">URL Bloqueada</div>
+        <div class="url-text" id="blockedUrl">Cargando...</div>
+      </div>
+      
+      <div class="reason-box">
+        <div class="reason-label">Razón del Bloqueo</div>
+        <div class="reason-text" id="blockReason">Cargando...</div>
+      </div>
+      
+      <div class="actions">
+        <button class="btn btn-primary" onclick="goBack()">
+          <span>←</span>
+          Volver Atrás
+        </button>
+        <button class="btn btn-secondary" onclick="openSettings()">
+          <span>⚙️</span>
+          Configuración de SafeGuard
+        </button>
+      </div>
+    </div>
+    
+    <div class="footer">
+      <p class="footer-text">Si crees que este sitio fue bloqueado por error</p>
+      <a href="#" class="footer-link" onclick="reportFalsePositive()">Reportar falso positivo</a>
+    </div>
+  </div>
+  
+  <script>
+    // Obtener parámetros de URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const blockedUrl = urlParams.get('url') || 'Desconocido';
+    const reason = urlParams.get('reason') || 'unknown';
+    
+    // Mapeo de razones
+    const reasonMap = {
+      'known_domain': 'Dominio conocido en lista de bloqueo',
+      'custom_blacklist': 'Dominio en tu lista negra personalizada',
+      'url_pattern': 'Patrón sospechoso detectado en la URL',
+      'domain_keyword': 'Palabras clave sospechosas en el dominio',
+      'unknown': 'Contenido potencialmente inapropiado'
+    };
+    
+    // Mostrar información
+    document.getElementById('blockedUrl').textContent = blockedUrl;
+    document.getElementById('blockReason').textContent = reasonMap[reason] || reasonMap['unknown'];
+    
+    // Funciones
+    function goBack() {
+      if (window.history.length > 1) {
+        window.history.back();
+      } else {
+        window.location.href = 'about:blank';
+      }
+    }
+    
+    function openSettings() {
+      chrome.runtime.openOptionsPage();
+    }
+    
+    function reportFalsePositive() {
+      if (confirm('¿Deseas agregar este dominio a tu lista blanca para permitir el acceso?')) {
+        try {
+          const url = new URL(blockedUrl);
+          const domain = url.hostname;
+          chrome.runtime.sendMessage({
+            type: 'ADD_TO_WHITELIST',
+            domain: domain
+          }, () => {
+            alert('Dominio agregado a la lista blanca. Puedes volver a intentar acceder.');
+            goBack();
+          });
+        } catch (e) {
+          alert('No se pudo procesar la URL');
+        }
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SafeGuard - Configuración</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <svg width="40" height="40" viewBox="0 0 32 32" fill="none">
+            <path d="M16 2L6 8V14C6 21 10 27 16 30C22 27 26 21 26 14V8L16 2Z" fill="currentColor" opacity="0.2"/>
+            <path d="M16 2L6 8V14C6 21 10 27 16 30C22 27 26 21 26 14V8L16 2Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M12 16L15 19L20 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h1>SafeGuard</h1>
+        <p>Configuración Avanzada</p>
+      </div>
+      
+      <nav class="nav">
+        <button class="nav-item active" data-tab="general">
+          <span class="nav-icon">⚙️</span>
+          <span class="nav-label">General</span>
+        </button>
+        <button class="nav-item" data-tab="detection">
+          <span class="nav-icon">🔍</span>
+          <span class="nav-label">Detección</span>
+        </button>
+        <button class="nav-item" data-tab="blocking">
+          <span class="nav-icon">🛡️</span>
+          <span class="nav-label">Bloqueo</span>
+        </button>
+        <button class="nav-item" data-tab="lists">
+          <span class="nav-icon">📋</span>
+          <span class="nav-label">Listas</span>
+        </button>
+        <button class="nav-item" data-tab="advanced">
+          <span class="nav-icon">🔧</span>
+          <span class="nav-label">Avanzado</span>
+        </button>
+        <button class="nav-item" data-tab="stats">
+          <span class="nav-icon">📊</span>
+          <span class="nav-label">Estadísticas</span>
+        </button>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- General Tab -->
+      <div class="tab-content active" id="general-tab">
+        <div class="page-header">
+          <h2>Configuración General</h2>
+          <p>Ajustes principales de SafeGuard</p>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>Protección</h3>
+          </div>
+          <div class="card-body">
+            <div class="setting-row">
+              <div class="setting-info">
+                <label class="setting-label">Habilitar SafeGuard</label>
+                <p class="setting-desc">Activa o desactiva toda la protección</p>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="enabledToggle" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+
+            <div class="setting-row">
+              <div class="setting-info">
+                <label class="setting-label">Nivel de bloqueo</label>
+                <p class="setting-desc">Ajusta la agresividad del filtrado</p>
+              </div>
+              <select class="select" id="blockingLevelSelect">
+                <option value="permissive">Permisivo - Solo contenido obvio</option>
+                <option value="moderate" selected>Moderado - Equilibrado</option>
+                <option value="strict">Estricto - Máxima protección</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>Notificaciones</h3>
+          </div>
+          <div class="card-body">
+            <div class="setting-row">
+              <div class="setting-info">
+                <label class="setting-label">Mostrar contador en badge</label>
+                <p class="setting-desc">Muestra el número de bloqueos en el icono</p>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="showBadgeToggle" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+
+            <div class="setting-row">
+              <div class="setting-info">
+                <label class="setting-label">Advertencias en página</label>
+                <p class="setting-desc">Muestra banners cuando se detecta contenido</p>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="showWarningsToggle" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Detection Tab -->
+      <div class="tab-content" id="detection-tab">
+        <div class="page-header">
+          <h2>Configuración de Detección</h2>
+          <p>Personaliza cómo se detecta el contenido</p>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>Análisis de Texto</h3>
+          </div>
+          <div class="card-body">
+            <div class="setting-row">
+              <div class="setting-info">
+                <label class="setting-label">Habilitar análisis de texto</label>
+                <p class="setting-desc">Escanea el texto de las páginas</p>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="textAnalysisToggle" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+
+            <div class="setting-row">
+              <div class="setting-info">
+                <label class="setting-label">Sensibilidad</label>
+                <p class="setting-desc">Umbral de detección de contenido sospechoso</p>
+              </div>
+              <select class="select" id="sensitivitySelect">
+                <option value="low">Baja - Menos falsos positivos</option>
+                <option value="medium">Media - Equilibrado</option>
+                <option value="high" selected>Alta - Máxima detección</option>
+              </select>
+            </div>
+
+            <div class="setting-row">
+              <div class="setting-info">
+                <label class="setting-label">Profundidad de escaneo</label>
+                <p class="setting-desc">Cantidad de contenido a analizar</p>
+              </div>
+              <select class="select" id="scanDepthSelect">
+                <option value="quick">Rápido - Solo primeros párrafos</option>
+                <option value="normal">Normal - Contenido visible</option>
+                <option value="full" selected>Completo - Toda la página</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>Detección de Imágenes</h3>
+          </div>
+          <div class="card-body">
+            <div class="setting-row">
+              <div class="setting-info">
+                <label class="setting-label">Habilitar detección de imágenes</label>
+                <p class="setting-desc">Analiza y bloquea imágenes sospechosas</p>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="imageDetectionToggle" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+
+            <div class="setting-row">
+              <div class="setting-info">
+                <label class="setting-label">Bloquear imágenes sospechosas</label>
+                <p class="setting-desc">Basado en contexto y atributos</p>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="blockSuspiciousToggle" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Blocking Tab -->
+      <div class="tab-content" id="blocking-tab">
+        <div class="page-header">
+          <h2>Configuración de Bloqueo</h2>
+          <p>Cómo se bloquea el contenido detectado</p>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>Método de Bloqueo</h3>
+          </div>
+          <div class="card-body">
+            <div class="setting-row">
+              <div class="setting-info">
+                <label class="setting-label">Difuminar en vez de bloquear</label>
+                <p class="setting-desc">Aplica blur a las imágenes en lugar de ocultarlas</p>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="blurInsteadToggle">
+                <span class="slider"></span>
+              </label>
+            </div>
+
+            <div class="setting-row">
+              <div class="setting-info">
+                <label class="setting-label">Modo estricto de dominios</label>
+                <p class="setting-desc">Bloquea subdominios de sitios conocidos</p>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="strictDomainToggle" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>Filtrado de URLs</h3>
+          </div>
+          <div class="card-body">
+            <div class="setting-row">
+              <div class="setting-info">
+                <label class="setting-label">Habilitar filtrado de URLs</label>
+                <p class="setting-desc">Analiza y bloquea URLs peligrosas</p>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="urlFilteringToggle" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+
+            <div class="setting-row">
+              <div class="setting-info">
+                <label class="setting-label">Usar lista negra incorporada</label>
+                <p class="setting-desc">Bloquea dominios conocidos automáticamente</p>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="useBlacklistToggle" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+
+            <div class="setting-row">
+              <div class="setting-info">
+                <label class="setting-label">Coincidencia de patrones</label>
+                <p class="setting-desc">Detecta patrones sospechosos en URLs</p>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="patternMatchToggle" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lists Tab -->
+      <div class="tab-content" id="lists-tab">
+        <div class="page-header">
+          <h2>Gestión de Listas</h2>
+          <p>Whitelist y Blacklist personalizadas</p>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>Lista Blanca (Whitelist)</h3>
+            <p class="card-subtitle">Dominios que nunca serán bloqueados</p>
+          </div>
+          <div class="card-body">
+            <div class="list-input-group">
+              <input type="text" class="input" id="whitelistInput" placeholder="ejemplo.com">
+              <button class="btn btn-primary" id="addWhitelistBtn">Agregar</button>
+            </div>
+            <div class="list-container" id="whitelistContainer">
+              <p class="list-empty">No hay dominios en la lista blanca</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>Lista Negra (Blacklist)</h3>
+            <p class="card-subtitle">Dominios personalizados a bloquear</p>
+          </div>
+          <div class="card-body">
+            <div class="list-input-group">
+              <input type="text" class="input" id="blacklistInput" placeholder="sitio-a-bloquear.com">
+              <button class="btn btn-primary" id="addBlacklistBtn">Agregar</button>
+            </div>
+            <div class="list-container" id="blacklistContainer">
+              <p class="list-empty">No hay dominios personalizados bloqueados</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Advanced Tab -->
+      <div class="tab-content" id="advanced-tab">
+        <div class="page-header">
+          <h2>Configuración Avanzada</h2>
+          <p>Opciones para usuarios avanzados</p>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>Opciones Avanzadas</h3>
+          </div>
+          <div class="card-body">
+            <div class="setting-row">
+              <div class="setting-info">
+                <label class="setting-label">Rastreo de estadísticas</label>
+                <p class="setting-desc">Mantiene un registro de bloqueos</p>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="statsTrackingToggle" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>Gestión de Datos</h3>
+          </div>
+          <div class="card-body">
+            <div class="btn-group">
+              <button class="btn btn-secondary" id="exportConfigBtn">
+                <span>📥</span> Exportar Configuración
+              </button>
+              <button class="btn btn-secondary" id="importConfigBtn">
+                <span>📤</span> Importar Configuración
+              </button>
+            </div>
+            <input type="file" id="importFileInput" accept=".json" style="display: none;">
+            
+            <div class="divider"></div>
+            
+            <button class="btn btn-danger" id="resetAllBtn">
+              <span>⚠️</span> Restaurar Configuración por Defecto
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats Tab -->
+      <div class="tab-content" id="stats-tab">
+        <div class="page-header">
+          <h2>Estadísticas</h2>
+          <p>Resumen de actividad de SafeGuard</p>
+        </div>
+
+        <div class="stats-overview">
+          <div class="stat-big-card">
+            <div class="stat-big-icon">🌐</div>
+            <div class="stat-big-value" id="statsWebsites">0</div>
+            <div class="stat-big-label">Sitios Web Bloqueados</div>
+          </div>
+          
+          <div class="stat-big-card">
+            <div class="stat-big-icon">🖼️</div>
+            <div class="stat-big-value" id="statsImages">0</div>
+            <div class="stat-big-label">Imágenes Filtradas</div>
+          </div>
+          
+          <div class="stat-big-card">
+            <div class="stat-big-icon">🔒</div>
+            <div class="stat-big-value" id="statsRequests">0</div>
+            <div class="stat-big-label">Requests Bloqueados</div>
+          </div>
+          
+          <div class="stat-big-card">
+            <div class="stat-big-icon">📊</div>
+            <div class="stat-big-value" id="statsTotal">0</div>
+            <div class="stat-big-label">Total Bloqueados</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>Información</h3>
+          </div>
+          <div class="card-body">
+            <div class="info-row">
+              <span class="info-label">Última reinicio:</span>
+              <span class="info-value" id="lastResetInfo">Nunca</span>
+            </div>
+            <div class="divider"></div>
+            <button class="btn btn-danger" id="resetStatsAllBtn">
+              <span>🗑️</span> Reiniciar Todas las Estadísticas
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Save Banner -->
+      <div class="save-banner" id="saveBanner">
+        <span>✓ Configuración guardada correctamente</span>
+      </div>
+    </main>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+/* SafeGuard - Content Styles */
+
+/* Elementos bloqueados */
+.safeguard-blocked {
+  display: none !important;
+}
+
+.safeguard-blurred {
+  filter: blur(20px) !important;
+  transition: filter 0.3s ease;
+  cursor: pointer !important;
+}
+
+.safeguard-blurred:hover {
+  filter: blur(15px) !important;
+}
+
+.safeguard-suspicious {
+  position: relative;
+}
+
+.safeguard-blocked-link {
+  pointer-events: none !important;
+  opacity: 0.3 !important;
+  text-decoration: line-through !important;
+  color: #95a5a6 !important;
+}
+
+/* Banner de advertencia */
+.safeguard-warning {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+  color: white;
+  padding: 12px 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 999999;
+  animation: safeguardSlideDown 0.4s ease-out;
+}
+
+.safeguard-warning-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.safeguard-warning-icon {
+  font-size: 24px;
+  line-height: 1;
+}
+
+.safeguard-warning-text {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.safeguard-warning-text strong {
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.safeguard-warning-close {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
+}
+
+.safeguard-warning-close:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+@keyframes safeguardSlideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Overlay para elementos revelables */
+.safeguard-blur-overlay {
+  position: relative;
+}
+
+.safeguard-blur-overlay::after {
+  content: 'Click para mostrar';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.safeguard-blur-overlay:hover::after {
+  opacity: 1;
+}

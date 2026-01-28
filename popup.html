@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SafeGuard</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <!-- Header -->
+    <div class="header">
+      <div class="header-content">
+        <div class="logo">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <path d="M16 2L6 8V14C6 21 10 27 16 30C22 27 26 21 26 14V8L16 2Z" fill="currentColor" opacity="0.2"/>
+            <path d="M16 2L6 8V14C6 21 10 27 16 30C22 27 26 21 26 14V8L16 2Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M12 16L15 19L20 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="header-text">
+          <h1>SafeGuard</h1>
+          <p class="subtitle">Protección Activa</p>
+        </div>
+      </div>
+      
+      <div class="status-indicator">
+        <div class="status-dot" id="statusDot"></div>
+        <span id="statusText">Activo</span>
+      </div>
+    </div>
+
+    <!-- Quick Toggle -->
+    <div class="quick-toggle">
+      <span class="toggle-label">Protección</span>
+      <label class="switch">
+        <input type="checkbox" id="mainToggle" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">🌐</div>
+        <div class="stat-content">
+          <div class="stat-value" id="websitesBlocked">0</div>
+          <div class="stat-label">Sitios bloqueados</div>
+        </div>
+      </div>
+      
+      <div class="stat-card">
+        <div class="stat-icon">🖼️</div>
+        <div class="stat-content">
+          <div class="stat-value" id="imagesBlocked">0</div>
+          <div class="stat-label">Imágenes filtradas</div>
+        </div>
+      </div>
+      
+      <div class="stat-card">
+        <div class="stat-icon">🔒</div>
+        <div class="stat-content">
+          <div class="stat-value" id="totalBlocked">0</div>
+          <div class="stat-label">Total bloqueados</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Blocking Level -->
+    <div class="section">
+      <div class="section-header">
+        <h3>Nivel de Protección</h3>
+      </div>
+      <div class="level-selector">
+        <button class="level-btn" data-level="permissive">
+          <span class="level-icon">🟢</span>
+          <span class="level-name">Permisivo</span>
+        </button>
+        <button class="level-btn active" data-level="moderate">
+          <span class="level-icon">🟡</span>
+          <span class="level-name">Moderado</span>
+        </button>
+        <button class="level-btn" data-level="strict">
+          <span class="level-icon">🔴</span>
+          <span class="level-name">Estricto</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Quick Settings -->
+    <div class="section">
+      <div class="section-header">
+        <h3>Configuración Rápida</h3>
+      </div>
+      <div class="settings-list">
+        <div class="setting-item">
+          <div class="setting-info">
+            <span class="setting-label">Análisis de texto</span>
+            <span class="setting-description">Detectar contenido en texto</span>
+          </div>
+          <label class="switch-small">
+            <input type="checkbox" id="textAnalysis" checked>
+            <span class="slider-small"></span>
+          </label>
+        </div>
+        
+        <div class="setting-item">
+          <div class="setting-info">
+            <span class="setting-label">Bloqueo de imágenes</span>
+            <span class="setting-description">Filtrar imágenes sospechosas</span>
+          </div>
+          <label class="switch-small">
+            <input type="checkbox" id="imageBlocking" checked>
+            <span class="slider-small"></span>
+          </label>
+        </div>
+        
+        <div class="setting-item">
+          <div class="setting-info">
+            <span class="setting-label">Filtrado de URLs</span>
+            <span class="setting-description">Bloquear URLs peligrosas</span>
+          </div>
+          <label class="switch-small">
+            <input type="checkbox" id="urlFiltering" checked>
+            <span class="slider-small"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="actions">
+      <button class="btn btn-secondary" id="settingsBtn">
+        <span>⚙️</span>
+        Configuración Avanzada
+      </button>
+      <button class="btn btn-text" id="resetStatsBtn">
+        Reiniciar estadísticas
+      </button>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <span class="footer-text">SafeGuard v1.0</span>
+      <span class="footer-dot">•</span>
+      <a href="#" class="footer-link" id="supportLink">Soporte</a>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
