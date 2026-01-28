@@ -261,7 +261,7 @@ Si encuentras un problema:
    - Pasos para reproducir
    - Capturas de pantalla si aplica
 
-## 🤝 Contribuir
+## 🤝 [Contribuir](https://www.paypal.com/donate/?hosted_button_id=WTDJQRHLE7MW2)
 
 Las contribuciones son bienvenidas! Si quieres contribuir:
 
