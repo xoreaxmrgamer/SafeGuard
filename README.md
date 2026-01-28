@@ -12,7 +12,7 @@ Creado por XorEaxMrGamer
 
 📧 Email: xoreaxmrgamer@gmail.com
 
-🔗 Link del Proyecto: [https://github.com/xoreaxmrgamer/tu-repositorio](https://github.com/xoreaxmrgamer/SafeGuard)
+🔗 Link del Proyecto: [SafeGuard](https://github.com/xoreaxmrgamer/SafeGuard)
 
 [Donaciones](https://www.paypal.com/donate/?hosted_button_id=WTDJQRHLE7MW2)
 
