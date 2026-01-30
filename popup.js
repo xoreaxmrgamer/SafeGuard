@@ -21,6 +21,12 @@ async function loadData() {
 function setupEventListeners() {
   // Toggle principal
   document.getElementById('mainToggle').addEventListener('change', async (e) => {
+    if (config.security.passwordEnabled) {
+      if (!await verifyPassword()) {
+        e.target.checked = !e.target.checked;
+        return;
+      }
+    }
     config.enabled = e.target.checked;
     await saveConfig();
     updateStatusIndicator();
@@ -29,6 +35,11 @@ function setupEventListeners() {
   // Level buttons
   document.querySelectorAll('.level-btn').forEach(btn => {
     btn.addEventListener('click', async () => {
+      if (config.security.passwordEnabled) {
+        if (!await verifyPassword()) {
+          return;
+        }
+      }
       const level = btn.dataset.level;
       config.blockingLevel = level;
       await saveConfig();
@@ -38,23 +49,53 @@ function setupEventListeners() {
   
   // Setting toggles
   document.getElementById('textAnalysis').addEventListener('change', async (e) => {
+    if (config.security.passwordEnabled) {
+      if (!await verifyPassword()) {
+        e.target.checked = !e.target.checked;
+        return;
+      }
+    }
     config.textAnalysis.enabled = e.target.checked;
     await saveConfig();
   });
   
   document.getElementById('imageBlocking').addEventListener('change', async (e) => {
+    if (config.security.passwordEnabled) {
+      if (!await verifyPassword()) {
+        e.target.checked = !e.target.checked;
+        return;
+      }
+    }
     config.imageBlocking.enabled = e.target.checked;
     await saveConfig();
   });
   
   document.getElementById('urlFiltering').addEventListener('change', async (e) => {
+    if (config.security.passwordEnabled) {
+      if (!await verifyPassword()) {
+        e.target.checked = !e.target.checked;
+        return;
+      }
+    }
     config.urlFiltering.enabled = e.target.checked;
     await saveConfig();
   });
   
   // Settings button
-  document.getElementById('settingsBtn').addEventListener('click', () => {
+  document.getElementById('settingsBtn').addEventListener('click', async () => {
+    if (config.security.passwordEnabled) {
+      if (!await verifyPassword()) {
+        return;
+      }
+    }
     chrome.runtime.openOptionsPage();
+  });
+  
+  // Security button
+  document.getElementById('securityBtn').addEventListener('click', async () => {
+    chrome.runtime.openOptionsPage();
+    // Signal to open security tab
+    chrome.storage.local.set({ openSecurityTab: true });
   });
   
   // Reset stats
@@ -66,24 +107,71 @@ function setupEventListeners() {
     }
   });
   
-  // Support link
-  document.getElementById('supportLink').addEventListener('click', (e) => {
-    e.preventDefault();
-    chrome.tabs.create({ url: 'https://github.com/safeguard-extension/support' });
+  // Password modal handlers
+  document.getElementById('verifyPasswordBtn').addEventListener('click', handlePasswordVerification);
+  document.getElementById('cancelPasswordBtn').addEventListener('click', () => {
+    document.getElementById('passwordModal').style.display = 'none';
+    document.getElementById('passwordInput').value = '';
+    document.getElementById('passwordError').style.display = 'none';
   });
+  
+  document.getElementById('passwordInput').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      handlePasswordVerification();
+    }
+  });
+}
+
+// Password verification
+let passwordVerified = false;
+let passwordCallback = null;
+
+async function verifyPassword() {
+  return new Promise((resolve) => {
+    passwordCallback = resolve;
+    document.getElementById('passwordModal').style.display = 'flex';
+    document.getElementById('passwordInput').focus();
+  });
+}
+
+async function handlePasswordVerification() {
+  const password = document.getElementById('passwordInput').value;
+  const response = await chrome.runtime.sendMessage({
+    type: 'VERIFY_PASSWORD',
+    password: password
+  });
+  
+  if (response.valid) {
+    document.getElementById('passwordModal').style.display = 'none';
+    document.getElementById('passwordInput').value = '';
+    document.getElementById('passwordError').style.display = 'none';
+    passwordVerified = true;
+    if (passwordCallback) {
+      passwordCallback(true);
+      passwordCallback = null;
+    }
+  } else {
+    document.getElementById('passwordError').textContent = 'Contraseña incorrecta';
+    document.getElementById('passwordError').style.display = 'block';
+    document.getElementById('passwordInput').value = '';
+    document.getElementById('passwordInput').focus();
+  }
 }
 
 // Guardar configuración
 async function saveConfig() {
   await chrome.runtime.sendMessage({
     type: 'UPDATE_CONFIG',
-    config: config
+    config: config,
+    bypassPassword: passwordVerified
   });
+  
+  passwordVerified = false; // Reset after use
   
   // Notificar a content scripts
   const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
   if (tabs[0]) {
-    chrome.tabs.sendMessage(tabs[0].id, { type: 'CONFIG_UPDATED' });
+    chrome.tabs.sendMessage(tabs[0].id, { type: 'CONFIG_UPDATED' }).catch(() => {});
   }
 }
 

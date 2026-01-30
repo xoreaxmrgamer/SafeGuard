@@ -134,6 +134,10 @@
         <span>⚙️</span>
         Configuración Avanzada
       </button>
+      <button class="btn btn-secondary" id="securityBtn">
+        <span>🔐</span>
+        Seguridad y Contraseña
+      </button>
       <button class="btn btn-text" id="resetStatsBtn">
         Reiniciar estadísticas
       </button>
@@ -141,9 +145,25 @@
 
     <!-- Footer -->
     <div class="footer">
-      <span class="footer-text">SafeGuard v1.0</span>
+      <span class="footer-text">SafeGuard v1.1 by XorEaxMrGamer</span>
       <span class="footer-dot">•</span>
-      <a href="#" class="footer-link" id="supportLink">Soporte</a>
+      <a href="https://github.com/xoreaxmrgamer/SafeGuard" target="_blank" class="footer-link">GitHub</a>
+      <span class="footer-dot">•</span>
+      <a href="https://www.youtube.com/@xoreaxmrgamer" target="_blank" class="footer-link">YouTube</a>
+    </div>
+  </div>
+
+  <!-- Password Modal -->
+  <div class="modal" id="passwordModal" style="display: none;">
+    <div class="modal-content">
+      <h3>🔐 Protección por Contraseña</h3>
+      <p class="modal-desc">Introduce tu contraseña para acceder a la configuración</p>
+      <input type="password" class="input" id="passwordInput" placeholder="Contraseña">
+      <div class="modal-actions">
+        <button class="btn btn-primary" id="verifyPasswordBtn">Verificar</button>
+        <button class="btn btn-secondary" id="cancelPasswordBtn">Cancelar</button>
+      </div>
+      <p class="error-message" id="passwordError" style="display: none;"></p>
     </div>
   </div>
 

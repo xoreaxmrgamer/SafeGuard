@@ -2,6 +2,7 @@
 
 let config = null;
 let stats = null;
+let passwordVerified = false;
 
 // Inicializar
 document.addEventListener('DOMContentLoaded', async () => {
@@ -9,6 +10,13 @@ document.addEventListener('DOMContentLoaded', async () => {
   setupNavigation();
   setupEventListeners();
   updateUI();
+  
+  // Check if should open security tab
+  const stored = await chrome.storage.local.get(['openSecurityTab']);
+  if (stored.openSecurityTab) {
+    openTab('security');
+    chrome.storage.local.remove(['openSecurityTab']);
+  }
 });
 
 // Cargar datos
@@ -26,16 +34,22 @@ function setupNavigation() {
   navItems.forEach(item => {
     item.addEventListener('click', () => {
       const tabName = item.dataset.tab;
-      
-      // Update nav
-      navItems.forEach(nav => nav.classList.remove('active'));
-      item.classList.add('active');
-      
-      // Update tabs
-      tabs.forEach(tab => tab.classList.remove('active'));
-      document.getElementById(tabName + '-tab').classList.add('active');
+      openTab(tabName);
     });
   });
+}
+
+function openTab(tabName) {
+  const navItems = document.querySelectorAll('.nav-item');
+  const tabs = document.querySelectorAll('.tab-content');
+  
+  // Update nav
+  navItems.forEach(nav => nav.classList.remove('active'));
+  document.querySelector(`[data-tab="${tabName}"]`)?.classList.add('active');
+  
+  // Update tabs
+  tabs.forEach(tab => tab.classList.remove('active'));
+  document.getElementById(tabName + '-tab')?.classList.add('active');
 }
 
 // Configurar event listeners
@@ -150,6 +164,41 @@ function setupEventListeners() {
     await saveConfig();
   });
   
+  // NEW: Threshold inputs with auto-save
+  document.getElementById('suspicionThreshold').addEventListener('change', async (e) => {
+    const value = parseInt(e.target.value);
+    if (value >= 1 && value <= 10) {
+      if (!config.textAnalysis) config.textAnalysis = {};
+      config.textAnalysis.suspicionThreshold = value;
+      await saveConfig();
+      showSaveBanner();
+    }
+  });
+  
+  document.getElementById('imageConfidenceThreshold').addEventListener('change', async (e) => {
+    const value = parseInt(e.target.value);
+    if (value >= 0 && value <= 100) {
+      if (!config.imageBlocking) config.imageBlocking = {};
+      config.imageBlocking.confidenceThreshold = value;
+      await saveConfig();
+      showSaveBanner();
+    }
+  });
+  
+  document.getElementById('allowRevealToggle').addEventListener('change', async (e) => {
+    if (!config.textAnalysis) config.textAnalysis = {};
+    config.textAnalysis.allowReveal = e.target.checked;
+    await saveConfig();
+  });
+  
+  // NEW: Stats reset period
+  document.getElementById('statsResetPeriod').addEventListener('change', async (e) => {
+    if (!config.stats) config.stats = {};
+    config.stats.resetPeriod = e.target.value;
+    await saveConfig();
+    showSaveBanner();
+  });
+  
   document.getElementById('exportConfigBtn').addEventListener('click', exportConfig);
   document.getElementById('importConfigBtn').addEventListener('click', () => {
     document.getElementById('importFileInput').click();
@@ -170,6 +219,62 @@ function setupEventListeners() {
       await chrome.runtime.sendMessage({ type: 'RESET_STATS' });
       await loadData();
       updateStats();
+    }
+  });
+  
+  // Security - Password setup
+  document.getElementById('setPasswordBtn').addEventListener('click', async () => {
+    const newPassword = document.getElementById('newPassword').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    
+    if (!newPassword || !confirmPassword) {
+      alert('Por favor, completa ambos campos de contraseña');
+      return;
+    }
+    
+    if (newPassword !== confirmPassword) {
+      alert('Las contraseñas no coinciden');
+      return;
+    }
+    
+    if (newPassword.length < 4) {
+      alert('La contraseña debe tener al menos 4 caracteres');
+      return;
+    }
+    
+    const response = await chrome.runtime.sendMessage({
+      type: 'SET_PASSWORD',
+      password: newPassword
+    });
+    
+    if (response.success) {
+      config.security.passwordEnabled = true;
+      document.getElementById('newPassword').value = '';
+      document.getElementById('confirmPassword').value = '';
+      updateSecurityUI();
+      showSaveBanner();
+      alert('✅ Contraseña establecida correctamente. Tu configuración ahora está protegida.');
+    }
+  });
+  
+  document.getElementById('removePasswordBtn').addEventListener('click', async () => {
+    const password = prompt('Introduce tu contraseña actual para desactivar la protección:');
+    
+    if (!password) return;
+    
+    const response = await chrome.runtime.sendMessage({
+      type: 'DISABLE_PASSWORD',
+      password: password
+    });
+    
+    if (response.success) {
+      config.security.passwordEnabled = false;
+      config.security.passwordHash = null;
+      updateSecurityUI();
+      showSaveBanner();
+      alert('✅ Protección por contraseña desactivada');
+    } else {
+      alert('❌ Contraseña incorrecta');
     }
   });
 }
@@ -217,11 +322,28 @@ function updateUI() {
   // Advanced
   document.getElementById('statsTrackingToggle').checked = config.statsTracking;
   
+  // NEW: Load threshold values
+  if (config.textAnalysis.suspicionThreshold !== undefined) {
+    document.getElementById('suspicionThreshold').value = config.textAnalysis.suspicionThreshold;
+  }
+  if (config.imageBlocking.confidenceThreshold !== undefined) {
+    document.getElementById('imageConfidenceThreshold').value = config.imageBlocking.confidenceThreshold;
+  }
+  if (config.textAnalysis.allowReveal !== undefined) {
+    document.getElementById('allowRevealToggle').checked = config.textAnalysis.allowReveal;
+  }
+  if (config.stats && config.stats.resetPeriod) {
+    document.getElementById('statsResetPeriod').value = config.stats.resetPeriod;
+  }
+  
   // Lists
   updateLists();
   
   // Stats
   updateStats();
+  
+  // Security
+  updateSecurityUI();
 }
 
 // Actualizar listas
@@ -344,4 +466,24 @@ async function importConfig(event) {
   
   // Reset input
   event.target.value = '';
+}
+
+// Update security UI
+function updateSecurityUI() {
+  const hasPassword = config.security.passwordEnabled;
+  
+  document.getElementById('noPasswordSection').style.display = hasPassword ? 'none' : 'block';
+  document.getElementById('hasPasswordSection').style.display = hasPassword ? 'block' : 'none';
+  
+  if (hasPassword) {
+    document.getElementById('securityIcon').textContent = '🔒';
+    document.getElementById('securityStatusText').textContent = 'Protegido';
+    document.getElementById('securityStatusDesc').textContent = 'La configuración está protegida por contraseña';
+    document.getElementById('securityStatus').style.background = '#d1fae5';
+  } else {
+    document.getElementById('securityIcon').textContent = '🔓';
+    document.getElementById('securityStatusText').textContent = 'Sin Protección';
+    document.getElementById('securityStatusDesc').textContent = 'La configuración no está protegida por contraseña';
+    document.getElementById('securityStatus').style.background = '#fee2e2';
+  }
 }

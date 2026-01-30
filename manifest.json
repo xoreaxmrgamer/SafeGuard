@@ -1,8 +1,10 @@
 {
   "manifest_version": 3,
   "name": "SafeGuard - Protección de Contenido",
-  "version": "1.0.0",
-  "description": "Extensión avanzada de control y filtrado de contenido no deseado con detección inteligente y configuración personalizable",
+  "version": "1.3.0",
+  "description": "Extensión optimizada con overlay corregido, wildcards, auto-reset de stats y persistencia total de configuración",
+  "author": "XorEaxMrGamer",
+  "homepage_url": "https://github.com/xoreaxmrgamer/SafeGuard",
   "permissions": [
     "storage",
     "webRequest",

@@ -39,6 +39,10 @@
           <span class="nav-icon">📋</span>
           <span class="nav-label">Listas</span>
         </button>
+        <button class="nav-item" data-tab="security">
+          <span class="nav-icon">🔐</span>
+          <span class="nav-label">Seguridad</span>
+        </button>
         <button class="nav-item" data-tab="advanced">
           <span class="nav-icon">🔧</span>
           <span class="nav-label">Avanzado</span>
@@ -46,6 +50,10 @@
         <button class="nav-item" data-tab="stats">
           <span class="nav-icon">📊</span>
           <span class="nav-label">Estadísticas</span>
+        </button>
+        <button class="nav-item" data-tab="about">
+          <span class="nav-icon">ℹ️</span>
+          <span class="nav-label">Acerca de</span>
         </button>
       </nav>
     </aside>
@@ -165,6 +173,27 @@
                 <option value="full" selected>Completo - Toda la página</option>
               </select>
             </div>
+            
+            <div class="divider"></div>
+            
+            <div class="setting-row">
+              <div class="setting-info">
+                <label class="setting-label">🆕 Umbral de suspicacia para bloqueo permanente</label>
+                <p class="setting-desc">Cuántas coincidencias se requieren para bloqueo permanente (1-10)</p>
+              </div>
+              <input type="number" class="input-small" id="suspicionThreshold" min="1" max="10" value="3">
+            </div>
+            
+            <div class="setting-row">
+              <div class="setting-info">
+                <label class="setting-label">🆕 Permitir revelado de contenido de baja sospecha</label>
+                <p class="setting-desc">Contenido con pocas coincidencias puede revelarse con click</p>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="allowRevealToggle" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
           </div>
         </div>
 
@@ -193,6 +222,16 @@
                 <input type="checkbox" id="blockSuspiciousToggle" checked>
                 <span class="slider"></span>
               </label>
+            </div>
+            
+            <div class="divider"></div>
+            
+            <div class="setting-row">
+              <div class="setting-info">
+                <label class="setting-label">🆕 Umbral de confianza para imágenes (0-100)</label>
+                <p class="setting-desc">Score mínimo para considerar imagen altamente sospechosa</p>
+              </div>
+              <input type="number" class="input-small" id="imageConfidenceThreshold" min="0" max="100" value="20">
             </div>
           </div>
         </div>
@@ -286,10 +325,11 @@
           <div class="card-header">
             <h3>Lista Blanca (Whitelist)</h3>
             <p class="card-subtitle">Dominios que nunca serán bloqueados</p>
+            <p class="card-hint">💡 Usa comodines: <code>*.ejemplo.com</code> para todos los subdominios</p>
           </div>
           <div class="card-body">
             <div class="list-input-group">
-              <input type="text" class="input" id="whitelistInput" placeholder="ejemplo.com">
+              <input type="text" class="input" id="whitelistInput" placeholder="ejemplo.com o *.ejemplo.com">
               <button class="btn btn-primary" id="addWhitelistBtn">Agregar</button>
             </div>
             <div class="list-container" id="whitelistContainer">
@@ -302,14 +342,101 @@
           <div class="card-header">
             <h3>Lista Negra (Blacklist)</h3>
             <p class="card-subtitle">Dominios personalizados a bloquear</p>
+            <p class="card-hint">💡 Usa comodines: <code>*bloqueado.com</code> bloquea todo el dominio y subdominios</p>
           </div>
           <div class="card-body">
             <div class="list-input-group">
-              <input type="text" class="input" id="blacklistInput" placeholder="sitio-a-bloquear.com">
+              <input type="text" class="input" id="blacklistInput" placeholder="sitio.com o *.sitio.com">
               <button class="btn btn-primary" id="addBlacklistBtn">Agregar</button>
             </div>
             <div class="list-container" id="blacklistContainer">
               <p class="list-empty">No hay dominios personalizados bloqueados</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Security Tab -->
+      <div class="tab-content" id="security-tab">
+        <div class="page-header">
+          <h2>Seguridad y Protección</h2>
+          <p>Protege tu configuración con contraseña</p>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>🔐 Protección por Contraseña</h3>
+            <p class="card-subtitle">Evita que otros modifiquen tu configuración</p>
+          </div>
+          <div class="card-body">
+            <div class="security-status" id="securityStatus">
+              <div class="status-indicator-large">
+                <span class="status-icon" id="securityIcon">🔓</span>
+                <div class="status-text">
+                  <h4 id="securityStatusText">Sin Protección</h4>
+                  <p id="securityStatusDesc">La configuración no está protegida por contraseña</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div id="noPasswordSection">
+              <p class="info-text">
+                Establece una contraseña para proteger tu configuración. Una vez activada, 
+                se requerirá la contraseña para realizar cualquier cambio en SafeGuard.
+              </p>
+              <div class="password-setup">
+                <input type="password" class="input" id="newPassword" placeholder="Nueva contraseña">
+                <input type="password" class="input" id="confirmPassword" placeholder="Confirmar contraseña">
+                <button class="btn btn-primary" id="setPasswordBtn">
+                  <span>🔒</span> Establecer Contraseña
+                </button>
+              </div>
+            </div>
+
+            <div id="hasPasswordSection" style="display: none;">
+              <p class="info-text success">
+                ✅ Tu configuración está protegida por contraseña
+              </p>
+              <div class="password-actions">
+                <button class="btn btn-danger" id="removePasswordBtn">
+                  <span>🔓</span> Desactivar Protección
+                </button>
+              </div>
+            </div>
+
+            <p class="warning-text">
+              ⚠️ <strong>Importante:</strong> Si olvidas tu contraseña, tendrás que restablecer 
+              la extensión completa y perderás toda tu configuración personalizada.
+            </p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>🛡️ Características de Seguridad</h3>
+          </div>
+          <div class="card-body">
+            <div class="feature-list">
+              <div class="feature-item">
+                <span class="feature-icon">✅</span>
+                <div class="feature-text">
+                  <strong>Protección completa:</strong> Nadie podrá desactivar o modificar la configuración sin la contraseña
+                </div>
+              </div>
+              <div class="feature-item">
+                <span class="feature-icon">✅</span>
+                <div class="feature-text">
+                  <strong>Contraseña encriptada:</strong> Se almacena usando hash SHA-256, imposible de recuperar
+                </div>
+              </div>
+              <div class="feature-item">
+                <span class="feature-icon">✅</span>
+                <div class="feature-text">
+                  <strong>Bloqueo total:</strong> Protege el toggle principal, niveles de protección y todas las configuraciones
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -406,10 +533,136 @@
               <span class="info-label">Última reinicio:</span>
               <span class="info-value" id="lastResetInfo">Nunca</span>
             </div>
+            
             <div class="divider"></div>
+            
+            <div class="setting-row">
+              <div class="setting-info">
+                <label class="setting-label">🆕 Período de reseteo automático</label>
+                <p class="setting-desc">Las estadísticas se resetearán automáticamente</p>
+              </div>
+              <select class="select" id="statsResetPeriod">
+                <option value="never">Nunca</option>
+                <option value="1h">1 hora</option>
+                <option value="12h">12 horas</option>
+                <option value="24h">24 horas (1 día)</option>
+                <option value="48h">48 horas (2 días)</option>
+                <option value="1w">1 semana</option>
+                <option value="1m">1 mes</option>
+              </select>
+            </div>
+            
+            <div class="divider"></div>
+            
             <button class="btn btn-danger" id="resetStatsAllBtn">
-              <span>🗑️</span> Reiniciar Todas las Estadísticas
+              <span>🗑️</span> Reiniciar Manualmente Ahora
             </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- About Tab -->
+      <div class="tab-content" id="about-tab">
+        <div class="page-header">
+          <h2>Acerca de SafeGuard</h2>
+          <p>Información del proyecto y desarrollador</p>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="about-header">
+              <div class="about-logo">
+                <svg width="64" height="64" viewBox="0 0 32 32" fill="none">
+                  <path d="M16 2L6 8V14C6 21 10 27 16 30C22 27 26 21 26 14V8L16 2Z" fill="currentColor" opacity="0.2"/>
+                  <path d="M16 2L6 8V14C6 21 10 27 16 30C22 27 26 21 26 14V8L16 2Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                  <path d="M12 16L15 19L20 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div class="about-info">
+                <h1>SafeGuard</h1>
+                <p class="version">Versión 1.1</p>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <p class="about-description">
+              SafeGuard es una extensión profesional de control y filtrado de contenido que proporciona 
+              protección avanzada mediante detección inteligente multinivel, análisis en tiempo real 
+              y configuración personalizable.
+            </p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>👨‍💻 Desarrollador</h3>
+          </div>
+          <div class="card-body">
+            <div class="developer-info">
+              <h4>XorEaxMrGamer</h4>
+              <p>Creador y desarrollador principal de SafeGuard</p>
+              <div class="social-links">
+                <a href="https://github.com/xoreaxmrgamer" target="_blank" class="social-link">
+                  <span class="social-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                  </span>
+                  <span>GitHub</span>
+                </a>
+                <a href="https://www.youtube.com/@xoreaxmrgamer" target="_blank" class="social-link">
+                  <span class="social-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                    </svg>
+                  </span>
+                  <span>YouTube</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>🔗 Enlaces</h3>
+          </div>
+          <div class="card-body">
+            <div class="link-list">
+              <a href="https://github.com/xoreaxmrgamer/SafeGuard" target="_blank" class="link-item">
+                <span class="link-icon">📦</span>
+                <div class="link-text">
+                  <strong>Repositorio GitHub</strong>
+                  <p>Código fuente, documentación y actualizaciones</p>
+                </div>
+              </a>
+              <a href="https://github.com/xoreaxmrgamer/SafeGuard/issues" target="_blank" class="link-item">
+                <span class="link-icon">🐛</span>
+                <div class="link-text">
+                  <strong>Reportar Problemas</strong>
+                  <p>Informa de errores o sugiere mejoras</p>
+                </div>
+              </a>
+              <a href="https://www.youtube.com/@xoreaxmrgamer" target="_blank" class="link-item">
+                <span class="link-icon">📺</span>
+                <div class="link-text">
+                  <strong>Canal de YouTube</strong>
+                  <p>Tutoriales y contenido del creador</p>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>📄 Licencia</h3>
+          </div>
+          <div class="card-body">
+            <p>SafeGuard está bajo la Licencia MIT. Es libre de usar, modificar y distribuir.</p>
+            <p style="margin-top: 12px; font-size: 13px; color: var(--text-secondary);">
+              © 2026 XorEaxMrGamer. Todos los derechos reservados.
+            </p>
           </div>
         </div>
       </div>

@@ -1,29 +1,154 @@
 /* SafeGuard - Content Styles */
 
-/* Elementos bloqueados */
+/* Elementos bloqueados permanentemente */
 .safeguard-blocked {
   display: none !important;
 }
 
-.safeguard-blurred {
-  filter: blur(20px) !important;
-  transition: filter 0.3s ease;
-  cursor: pointer !important;
+.safeguard-permanent-block {
+  filter: blur(50px) !important;
+  transition: none !important;
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
 }
 
-.safeguard-blurred:hover {
+/* Contenido revelable - puede hacer click para ver */
+.safeguard-revealable {
   filter: blur(15px) !important;
+  cursor: pointer !important;
+  transition: filter 0.3s ease !important;
+  position: relative;
+}
+
+.safeguard-revealable:hover {
+  filter: blur(10px) !important;
+}
+
+.safeguard-revealable::after {
+  content: '👁️ Click para revelar';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(37, 99, 235, 0.9);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  pointer-events: none;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.safeguard-revealable:hover::after {
+  opacity: 1;
+}
+
+/* Contenido revelado */
+.safeguard-revealed {
+  filter: none !important;
+  cursor: default !important;
+}
+
+/* Contenido seguro - puede ser revelado */
+.safeguard-safe {
+  /* No restrictions - normal interaction */
 }
 
 .safeguard-suspicious {
   position: relative;
 }
 
+/* Enlaces bloqueados permanentemente */
 .safeguard-blocked-link {
   pointer-events: none !important;
   opacity: 0.3 !important;
   text-decoration: line-through !important;
   color: #95a5a6 !important;
+  cursor: not-allowed !important;
+  user-select: none !important;
+}
+
+/* FIXED: Bloqueo de página completa con Z-INDEX correcto */
+.safeguard-page-blocked {
+  /* Don't blur body - let overlay handle it */
+  position: relative !important;
+}
+
+/* CRITICAL FIX: Overlay always on top with isolation */
+.safeguard-full-block-overlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background: rgba(15, 23, 42, 0.98) !important;
+  /* Maximum z-index possible */
+  z-index: 2147483647 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  /* Backdrop blur for everything behind */
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  pointer-events: all !important;
+  /* Force own compositing layer */
+  transform: translateZ(0) !important;
+  will-change: transform !important;
+  /* Create new stacking context */
+  isolation: isolate !important;
+  /* Ensure it's above everything */
+  contain: layout style paint !important;
+}
+
+.safeguard-full-block-message {
+  position: relative !important;
+  z-index: 2147483647 !important;
+  background: white !important;
+  border-radius: 24px !important;
+  padding: 48px 40px !important;
+  max-width: 500px !important;
+  text-align: center !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5) !important;
+  animation: safeguardSlideUp 0.5s ease-out !important;
+  /* Own stacking context */
+  isolation: isolate !important;
+}
+
+.safeguard-block-icon {
+  font-size: 64px !important;
+  margin-bottom: 20px !important;
+  animation: safeguardPulse 2s ease-in-out infinite !important;
+}
+
+@keyframes safeguardSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes safeguardPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
 }
 
 /* Banner de advertencia */
