@@ -4,19 +4,23 @@
   <img src="icons/icon128.png" alt="SafeGuard Logo" width="128">
 </p>
 
-<p align="center">
-  <strong>Versión 1.1</strong> | Creado por <a href="https://github.com/xoreaxmrgamer">XorEaxMrGamer</a>
-</p>
+<img width="1536" height="1024" alt="ChatGPT Image 28 ene 2026, 03_05_03 p m" src="https://github.com/user-attachments/assets/ad14692c-1994-4c4d-9bb3-03a677cc3577" />
 
-<p align="center">
-  <a href="https://github.com/xoreaxmrgamer/SafeGuard">🔗 GitHub</a> •
-  <a href="https://www.youtube.com/@xoreaxmrgamer">📺 YouTube</a> •
-  <a href="https://github.com/xoreaxmrgamer/SafeGuard/issues">🐛 Issues</a>
-</p>
+Contacto y Créditos
+Este proyecto fue creado y es mantenido por:
 
----
+Creado por XorEaxMrGamer
+🔗 Canal de Youtube: [Visita mi canal](https://www.youtube.com/@xoreaxmrgamer)
 
-**SafeGuard** es una extensión profesional para Chrome y Brave que proporciona protección avanzada contra contenido no deseado mediante detección inteligente multinivel, análisis de texto en tiempo real, bloqueo permanente y protección por contraseña.
+📧 Email: xoreaxmrgamer@gmail.com
+
+🔗 Link del Proyecto: [SafeGuard](https://github.com/xoreaxmrgamer/SafeGuard)
+
+[Donaciones](https://www.paypal.com/donate/?hosted_button_id=WTDJQRHLE7MW2)
+
+[Patreon](https://www.patreon.com/c/xoreaxmrgamer)
+
+**SafeGuard** es una extensión profesional para Chrome y Brave que proporciona protección avanzada contra contenido no deseado mediante detección inteligente multinivel, análisis de texto en tiempo real y bloqueo configurable.
 
 ✅ SafeGuard v1.3 - Todas las Correcciones Implementadas
 
